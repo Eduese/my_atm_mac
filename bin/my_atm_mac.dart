@@ -13,24 +13,20 @@ import 'package:my_atm_mac/my_atm_mac.dart' as my_atm_mac;
 import 'dart:io';
 
 void main(List<String> arguments) {
-
-  print('Welcome Customer. Please select the number based on the service you need');
-//Customer customer = Customer();
-// customer.select_Transfer()
-
-Customer().select_Transaction() ;
+  print('Welcome Customer. Please select the number based on the service you need'); // message to welcome customer
+  Customer().select_Transaction() ; //creating the Customer class object without first initialising it
 
 }
 
 
-class Customer {
-  double balance = 0;
-  int option = 0;
-  late double amount;
-  late double input_amount;
-  late int account_number;
-  late int phone_number;
-  int pin = 3456;
+class Customer { // creating a class with a typical SERVICES needed by a customer
+  double balance = 0; //customer balance initialised to zero with an increment hope
+  int option = 0; // the options for the  SERVICES options to be offered the  bt the bank
+  late double amount; // being the deposit, wihdraw, transfer, ...amount. The late keyword means it'll be used LATER
+                      //late double input_amount; //
+  late int account_number; // account number of the Cusromer
+  late int phone_number; // phone number of the Customer
+  int pin = 3456; // the default pin for this project
 
 
 /* 1. SELECT TRANSACTION. 2. DEPOSIT; 3. WITHDRAW; 4. TRANSFER;
@@ -85,7 +81,8 @@ class Customer {
     for (int i = 1; i <= 3; i++ ) {
       amount = double.parse(stdin.readLineSync()!);
       if (balance < amount) {
-        print("Wrong transaction \n your input of N$amount \n is less than your balance of $balance");
+        print("Wrong transaction your input of N$amount is less than your balance of $balance "
+            "\nPlease input a valid amount");
         if(i == 2) {
           print('You have only a chance left');
         }
