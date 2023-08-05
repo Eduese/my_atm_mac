@@ -44,17 +44,20 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
     
     switch(option){
       case 1: print('You selected a DEPOSIT transaction service ');
-          deposit();
+          deposit(); //calling the deposit() function
 
       case 2: print('You selected a WITHDRAWAL transaction service ');
-          withdraw();
+          withdraw(); ////calling the withdraw() function
 
       case 3: print('You selected a TRANSFER transaction service ');
               print('Press 1 for Quickteller Transfer, Press 2 for Main transfer');
-              select_Transfer();
+              select_Transfer(); //calling the selec_Transfer() function
 
       case 4: print('You selected a QUICKTELLER transaction service ');
+              quickteller(); //calling the quickteller() function
+
       case 5: print('You selected a CHANGE-PIN transaction service ');
+
 
     }
   }
