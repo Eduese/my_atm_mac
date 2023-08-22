@@ -21,7 +21,7 @@ void main(List<String> arguments) {
 
 class Customer { // creating a class with a typical SERVICES needed by a customer
     double balance = 0; //customer balance initialised to zero with an increment hope
-    int option = 0; // options for the SERVICES to be offered by the bank
+    late int option; // options for the SERVICES to be offered by the bank
     late double amount; // being the deposit, withdraw, transfer, ...amount. The late keyword means it'll be used LATER
     late int accountNumber; // account number of the Customer
     late int phoneNumber; // phone number of the Customer
@@ -46,7 +46,7 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
       //       "/n Please input postive whole numbers");
       // }
 
-        if(option.isNaN == false){
+        if(option.isNaN == false && option.isNegative == false){ // condition to accept only integers
           switch(option){
             case 1: print('You selected a DEPOSIT transaction service ');
             deposit(); //calling the deposit() function
@@ -66,7 +66,13 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
           }
 
         } else {
-          print("Not acceptable");
+                  try{
+                        if(option is String) {
+                          print("Please input only whole numbers, not strings");
+                        }
+                  } catch(e){
+
+                  };
 
         }
 
@@ -125,8 +131,10 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
         for (int i = 1; i <= 3; i++) {
           //print("Invalid input. Please enter the correct value");
           amount = double.parse(stdin.readLineSync()!);
-          if (amount <= 0 || amount > balance) {
+          if (amount <= 0 || amount is String) {
+            //try/catch here
             print("You cannot input $amount as an input");
+            //throw Exception('Negative values are not allowed');
             if (i == 1) {
               print("\nPlease input a valid amount");
             }
@@ -139,6 +147,9 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
               print("Sorry! You have exceeded your input limit"
                   "\n");
             }
+          } else if (amount > balance) {
+            print("Your input of $amount is greater than your balance of $balance");
+            //
           }
 
 
@@ -146,6 +157,8 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
              withdrawing();
              break;
            }
+
+          //return amount here
       }
 
       select_Transaction();
