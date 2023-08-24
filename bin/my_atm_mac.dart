@@ -11,12 +11,15 @@
 
 import 'package:my_atm_mac/my_atm_mac.dart' as my_atm_mac;
 import 'dart:io';
+import 'exception_errors.dart';
 
 void main(List<String> arguments) {
   print('Welcome Customer. Please select the number based on the service you need'); // message to welcome customer
   Customer().select_Transaction() ; //creating the Customer class object without first initialising it
 
 }
+
+exception_errors exceptionErrors = exception_errors();
 
 
 class Customer { // creating a class with a typical SERVICES needed by a customer
@@ -130,33 +133,41 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
 
         for (int i = 1; i <= 3; i++) {
           //print("Invalid input. Please enter the correct value");
-          amount = double.parse(stdin.readLineSync()!);
-          if (amount <= 0 || amount is String) {
-            //try/catch here
-            print("You cannot input $amount as an input");
-            //throw Exception('Negative values are not allowed');
-            if (i == 1) {
-              print("\nPlease input a valid amount");
-            }
+          //create class  for error messages
+          try {
+            amount = double.parse(stdin.readLineSync()!);
+            if (amount <= 0 || amount is String) {
+              //try/catch here
+              print("You cannot input $amount as an input");
+              //throw FormatException ('Negative values are not allowed');
+              if (i == 1) {
+                print("\nPlease input a valid amount");
+              }
 
-            if (i == 2) {
-              print('You have only a chance left!'
-                  '\n input a correct amount');
+              if (i == 2) {
+                print('You have only a chance left!'
+                    '\n input a correct amount');
+              }
+              if (i == 3) {
+                print("Sorry! You have exceeded your input limit"
+                    "\n");
+              }
+            } else if (amount > balance) {
+              print(
+                  "Your input of $amount is greater than your balance of $balance");
+              // this doesn't need throw or exception
             }
-            if (i == 3) {
-              print("Sorry! You have exceeded your input limit"
-                  "\n");
-            }
-          } else if (amount > balance) {
-            print("Your input of $amount is greater than your balance of $balance");
-            //
+          } on FormatException {
+            print("Negative Numbers or Strings not allowed");
+          } catch (e) {
+            print (e);
           }
 
 
-          else {
-             withdrawing();
-             break;
-           }
+          // else {
+          //    withdrawing();
+          //    break;
+          //  }
 
           //return amount here
       }
