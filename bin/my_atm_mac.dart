@@ -29,6 +29,8 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
     late int accountNumber; // account number of the Customer
     late int phoneNumber; // phone number of the Customer
     int pin = 3456; // the default pin for this project
+    //late bool isString = true;
+
 
 
   /* 1. SELECT TRANSACTION. 2. DEPOSIT; 3. WITHDRAW; 4. TRANSFER;
@@ -42,52 +44,41 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
           "1: DEPOSIT; 2: WITHDRAWAL; 3:TRANSFER 4: QUICKTELLER; 5: CHANGE PIN"
           "6:7:8:"
           "");
-
+      try {
       option = int.parse(stdin.readLineSync()!); // customer inputs the digit wrt service needed
-      // if (option < 0) {
-      //   print("Negative inputs not allowed "
-      //       "/n Please input postive whole numbers");
-      // }
 
-        if(option.isNaN == false && option.isNegative == false){ // condition to accept only integers
-          switch(option){
-            case 1: print('You selected a DEPOSIT transaction service ');
-            deposit(); //calling the deposit() function
+          if ((option.isNaN == false) && (option.isNegative == false)) { // condition to accept only integers
+            switch (option) {
+              case 1:
+                print('You selected a DEPOSIT transaction service ');
+                deposit(); //calling the deposit() function
 
-            case 2: print('You selected a WITHDRAWAL transaction service ');
-            withdraw();  //calling the withdraw() function
+              case 2:
+                print('You selected a WITHDRAWAL transaction service ');
+                withdraw(); //calling the withdraw() function
 
-            case 3: print('You selected a TRANSFER transaction service ');
-            print('Press 1 for Quickteller Transfer, Press 2 for Main transfer');
-            select_Transfer(); //calling the selec_Transfer() function
+              case 3:
+                print('You selected a TRANSFER transaction service ');
+                print(
+                    'Press 1 for Quickteller Transfer, Press 2 for Main transfer');
+                select_Transfer(); //calling the selec_Transfer() function
 
-            case 4: print('You selected a QUICKTELLER transaction service ');
-            quickteller(); //calling the quickteller() function
+              case 4:
+                print('You selected a QUICKTELLER transaction service ');
+                quickteller(); //calling the quickteller() function
 
-            case 5: print('You selected a CHANGE-PIN transaction service ');
-
+              case 5:
+                print('You selected a CHANGE-PIN transaction service ');
+            }
+          } else {
+            print("The input is wrong");
           }
-
-        } else {
-                  try{
-                        if(option is String) {
-                          print("Please input only whole numbers, not strings");
-                        }
-                  } catch(e){
-
-                  };
-
+        } catch(e) {
+          print('You cannot enter such an input');
         }
-
 
     }
 
-    //check_Integer() {
-      //   if(option.isNaN && option < 0) { //check if
-      //     print("Only Numbers, Other characters not permitted ");
-      //
-      //   }
-      // }
 
     deposit() { // for deposit into one's account in one's bank
       // function to help in money deposits
@@ -112,31 +103,28 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
       // function to help in withdrawing
       print("Please input amount you want to withdraw");
       amount = double.parse(stdin.readLineSync()!);
-      if (amount > 0 && amount < balance) {
-        withdrawing();
+        if ((amount > 0) && (amount < balance)) {
+          withdrawing();
+        }
+        else {
+          confirm_balance();
       }
-      else {
-        confirm_balance();
-      }
-
     }
 
     withdrawing() {
       balance = balance - amount;
       print("You have withdrawn N$amount. Your balance is $balance");
       print("\nThank you for banking with us");
-      exit;
+      //exit;
     }
 
-    confirm_balance() { // code to check if balance == 0, < amount or -ve before an debit transaction
-      print('Please enter a valid amount');
-
+    confirm_balance() { // code to check if balance == 0, -ve or other characters before any transaction
+      print('You have 3 attempts left (confirm balance)');
         for (int i = 1; i <= 3; i++) {
-          //print("Invalid input. Please enter the correct value");
           //create class  for error messages
-          try {
+          //try {
             amount = double.parse(stdin.readLineSync()!);
-            if (amount <= 0 || amount is String) {
+            if (amount <= 0 || amount > balance) {
               //try/catch here
               print("You cannot input $amount as an input");
               //throw FormatException ('Negative values are not allowed');
@@ -152,26 +140,19 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
                 print("Sorry! You have exceeded your input limit"
                     "\n");
               }
-            } else if (amount > balance) {
-              print(
-                  "Your input of $amount is greater than your balance of $balance");
+            } else {
+              withdrawing();
+              break;
+              //print(
+                 // "Your input of $amount is greater than your balance of $balance");
               // this doesn't need throw or exception
             }
-          } on FormatException {
-            print("Negative Numbers or Strings not allowed");
-          } catch (e) {
-            print (e);
-          }
-
-
-          // else {
-          //    withdrawing();
-          //    break;
-          //  }
-
-          //return amount here
+          // } on FormatException {
+          //   print("Negative Numbers or Strings not allowed");
+          // } catch (e) {
+          //   print (e);
+          // }
       }
-
       select_Transaction();
     }
 
