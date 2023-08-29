@@ -43,12 +43,13 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
       print("Welcome. Please type in one of the options below to select your transaction "
           "1: DEPOSIT; 2: WITHDRAWAL; 3:TRANSFER 4: QUICKTELLER; 5: CHANGE PIN"
           "6:7:8:"
-          "");
+          "0 to QUIT all transactions");
       try {
       option = int.parse(stdin.readLineSync()!); // customer inputs the digit wrt service needed
 
           if ((option.isNaN == false) && (option.isNegative == false)) { // condition to accept only integers
             switch (option) {
+
               case 1:
                 print('You selected a DEPOSIT transaction service ');
                 deposit(); //calling the deposit() function
@@ -69,14 +70,23 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
 
               case 5:
                 print('You selected a CHANGE-PIN transaction service ');
+
+              case 0:
+                print('Thank you for banking with us');
+                //;
+
+
             }
           } else {
             print("The input is wrong");
+
           }
         } catch(e) {
-          print('You cannot enter such an input');
-        }
+          print('You cannot enter such a wrong input');
+          //select_Transaction();
 
+        }
+      exit(option);
     }
 
 
@@ -99,7 +109,7 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
       }
     }
 
-    withdraw() {
+    double withdraw() {
       // function to help in withdrawing
       print("Please input amount you want to withdraw");
       amount = double.parse(stdin.readLineSync()!);
@@ -109,12 +119,14 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
         else {
           confirm_balance();
       }
+        return balance;
     }
 
-    withdrawing() {
+    double withdrawing() {
       balance = balance - amount;
       print("You have withdrawn N$amount. Your balance is $balance");
       print("\nThank you for banking with us");
+      return balance;
       //exit;
     }
 
@@ -124,7 +136,7 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
           //create class  for error messages
           //try {
             amount = double.parse(stdin.readLineSync()!);
-            if (amount <= 0 || amount > balance) {
+            //if (amount <= 0 || amount > balance) {
               //try/catch here
               print("You cannot input $amount as an input");
               //throw FormatException ('Negative values are not allowed');
@@ -140,19 +152,22 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
                 print("Sorry! You have exceeded your input limit"
                     "\n");
               }
-            } else {
-              withdrawing();
-              break;
+            //} else {
+              //withdrawing();
+              //break;
+
               //print(
                  // "Your input of $amount is greater than your balance of $balance");
               // this doesn't need throw or exception
-            }
+            //}
           // } on FormatException {
           //   print("Negative Numbers or Strings not allowed");
           // } catch (e) {
           //   print (e);
           // }
+
       }
+        //return amount;
       select_Transaction();
     }
 
