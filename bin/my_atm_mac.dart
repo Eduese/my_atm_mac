@@ -13,37 +13,64 @@ import 'dart:io';
 import 'exception_errors.dart';
 import 'quick_teller.dart';
 
-exception_errors exceptionErrors = exception_errors();
-QuickTeller quickTeller = QuickTeller();
-double balance = 20000 ; //customer balance initialised to zero with an increment hope
+exception_errors exceptionErrors = exception_errors(); // object of class Exception_Errors
+QuickTeller quickTeller = QuickTeller(); // object of class Quickteller
+double balance = 20000 ; //customer balance initialised; it is UNIVERSAL - for other clasees usage
+late int pin;  // being the PERSONAL IDENTIFICATION NUMBER of the customer
 
 void main(List<String> arguments) {
-  print('Welcome Customer. Please select the number based on the service you need'); // message to welcome customer
-  Customer().select_Transaction() ; //creating the Customer class object without first initialising it
+  print("Welcome Customer"); // message to welcome customer // Please select the number based on the service you need');
+  Customer().inputPin(); //creating the Customer class object without first initialising it
 }
 
 class Customer { // creating a class with a typical SERVICES needed by a customer
-    //double balance = 0 ; //customer balance initialised to zero with an increment hope
-    late int option; // options for the SERVICES to be offered by the bank
+
+    late int option;  // options for the SERVICES to be offered by the bank
+
     late double amount; // being the deposit, withdraw, transfer, ...amount. The late keyword means it'll be used LATER
     late int accountNumber; // account number of the Customer
     late int phoneNumber; // phone number of the Customer
-    int pin = 3456; // the default pin for this project
-    //late bool isString = true;
+    //int pin = 3456; // the default pin for this project
 
-  /* 1. SELECT TRANSACTION. 2. DEPOSIT; 3. WITHDRAW; 4. TRANSFER;
-  5. OPEN ACCOUNT, 6. CHECK BALANCE,
-  7. SET PIN.
-  4. QUICKTELLER SERVICES - TRANSFER, RECHARGE PHONE,  PAY BILLS (dstv, phedc,...),**/
+    inputPin() { // input PIN and check correctness of PIN
+      for(int i = 0; i <= 2; i++) {
+        try {
+          print("Please enter your 4 correct number PIN");
+          pin = int.parse(stdin.readLineSync()!);
+          if(pin == 3456) {
+            return select_Transaction();
+          }  else  {
+            if(i == 1) {
+            print("Only 1ne last chance left for (-ve PIN input) ");
+            }
+            if(i == 2) {
+            print("You exhausted your -ve PIN entry limit. Goodbye.");
+            return; // used to terminate the loop to avoid printing below message
+            }
+            print("Chai, I fear you");
+          }
+
+          } catch (e) {
+            if(i == 1) {
+            print("One last chance left for you ");
+            }
+            if(i == 2) {
+            print("You exhausted your xter limit. Goodbye.");
+            return; // used to terminate the loop to avoid printing below message
+            }
+          print("Baddest input.");
+        }
+      }
+    }
+
 
     select_Transaction() {
       //function to select the TRANSACTION TYPE a customer wants to perform
       print("Welcome. Please type in one of the options below to select your transaction \n"
-          "1: DEPOSIT; 2: WITHDRAWAL; 3: BALANCE; 4: CHECK; TRANSFER; \n"
-          "5: QUICKTELLER - Recharge; txfer; ; DSTV; STARTIMES; GOTV; WATER BILL; POWER BILL\n"
-          "6: CHANGE PIN; 7:8:"
-          "0 to QUIT all transactions"
-          "Any other character will terminate the program instantly");
+          "1: DEPOSIT; 2: WITHDRAWAL; 3: BALANCE CHECK; 4: TRANSFER; \n"
+          "5: QUICKTELLER - (Recharge; Transfer; Startimes; DSTV; GoTV; Water Bill; Power Bill)\n"
+          "6: CHANGE PIN; "
+          "0: QUIT all transactions");
       for(int i = 0; i <= 2; i++) {
         try {
          option = int.parse(stdin.readLineSync()!);
@@ -51,37 +78,37 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
           if ((option is int) && (option.isNegative == false)) { // condition to accept only positive integers
             switch (option) {  // the SWITCH statement used to offer us options to choose
 
-              case 1: //
+              case 1: // DEPOSIT
                 print('You selected a DEPOSIT transaction service ');
                 return deposit(); //calling the deposit() function
 
-              case 2:
+              case 2: // WITHDRAWAL
                 print('You selected a WITHDRAWAL transaction service ');
                 return withdraw(); // return to the withdraw() function
 
-              case 3:
+              case 3: // BALANCE_CHECK
                 print('You selected an option to check your BALANCE ');
                 return checkBalance();
 
-              case 4:
+              case 4: // INTER or INTRA TRANSFERS
                 print('You selected a TRANSFER transaction service ');
                 print('Press 1 for Quickteller Transfer, Press 2 for Main transfer');
                 return select_Transfer(); // return to the selec_Transfer() function
 
-              case 5:
+              case 5: // QUICKTELLER SERVICES
                 print('You selected a QUICKTELLER transaction service ');
-                return quickTeller.airtimeRecharge() ;
+                return quickTeller.subscriptionType() ;
                 //return furtherTransaction();
 
-              case 6:
+              case 6: // CHANGE PIN
                 print('You selected a CHANGE-PIN transaction service ');
-                  return quickTeller.subscriptionType();
+                  return setPin();
 
               case 7:
                 print('You are on CHECK-BALANCE transaction service ');
                   return checkBalance();
 
-              default:
+              case 0:
                 print('Thank you for banking with us');
                 return;
             }
@@ -97,17 +124,6 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
                    }
                 print("-Ve input not allowed. \n"
                     "\nPress any of the options 1 to 9 above to select your transaction ");
-
-                ///this code is for variety sake
-                ///we can do without the INPUT and the IF-ELSE statement
-                ///by making the user input OPTIONS 1 to 9 under SELECT TRANSACTION
-                ///as shown in the CATCH for loop that follows immediately after this IF-ELSE option
-                //option = int.parse(stdin.readLineSync()!);
-                // if(option > 0) {
-                //   select_Transaction();
-                // } else {
-                //   i++;
-                // }
                 }
           } catch (e) {
 
@@ -125,9 +141,8 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
 
 
     deposit() {
-      // for money deposit into one's account in one's bank
-      print("You selected a DEPOSIT method. Please input the amount you want to deposit");
-
+      // for money deposit into one's bank account 
+      print("Please input the amount you want to deposit ");
       for (int i = 0; i <= 2; i++) {
         print("Please enter a +ve number as amount");
         try { // Taking care of exceptions - non number inputs
@@ -141,7 +156,6 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
                   print("Press 1 for further transaction or any key to exit");
                   break;
                 } else {  /// IF INPUT AMOUNT IS A -VE VALUE
-
                   //print({"Negative numbers not needed."});
                   if (i == 1) {
                     print("One more entry-time left");
@@ -152,7 +166,6 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
                   }
                 }
               } catch (e) {  ///CATCH EXCEPTIONS FROM INPUT "AMOUNT" ABOVE
-
                   if (i == 1) {
                     print(
                         "One Chance left..."); // for the last chance that remains in this -ve condition loop
@@ -166,72 +179,69 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
                 }
               }
             return furtherTransaction();
-            //select_Transaction();
         }
 
-    checkPositiveIntegerInputs(){
-      for(int k = 0; k <= 2; k++) {
-        print("Please input the correct code");
+    end_transactions(){
+      try{
+        print("Do you really want to end all transactions? \n"
+            "PRESS 1 if 'YES'; PRESS 2 or other input for 'NO'");
         option = int.parse(stdin.readLineSync()!);
-        if(k == 1){ print("Only one input chance is left for you");}
-        if (option > 0) {
-          return select_Transaction();
-        } else if (option < 0) {
-          print("That is a wrong input");
-        } else {
-          print("Do you understand english at all? Goodbye");
-          break;
-        }
-      }
-    }
+          switch (option) {  // the SWITCH statement used to offer us options to choose
 
+            case 1: //
+              print("Hope you have a great day. Goodbye!");
+              return; //calling the deposit() function
+
+            default: //
+              return furtherTransaction(); // end all transactions
+            }
+          } catch(e) {
+          return furtherTransaction(); // end all transactions
+        }
+    }
     
 
     furtherTransaction() {
       print("Press 1 for further transaction \nPress any key to exit all transactions");
-      //for (int v = 0; v <= 2; v++) {
         try {
           option = int.parse(stdin.readLineSync()!);
           if (option == 1) {
-            select_Transaction();
+            return inputPin();
           } else {
-            print("Thank you for banking with us. Goodbye!");
-            //return;
+            return end_transactions();
           }
         } catch (e) {
-          print("Thank you for banking with us. Have a nice day!");
-          //return;
+          return end_transactions();
         }
-      ///} ///FOR TE FOR-LOOP
     }
 
-    withdraw() {
-      // function to help in withdrawing
-      print("Please enter the amount to withdraw");
+    withdraw() { // function to help customer make withdrawals
+      print("Please enter the amount to withdraw. ");
       for (int i = 0; i <= 2; i++) {
-        //print("Please enter a +ve number as amount");
         try { // Taking care of exceptions - non number inputs
-          amount = double.parse(stdin.readLineSync()!); // to get the amount to be deposited
+          amount = double.parse(stdin.readLineSync()!); // get the amount to be deposited
 
-          if ((amount < balance) && (amount > 0)) {  /// IF INPUT IS A +VE NUMBER
-
-            print("\nPlease wait while we compare the cash with your input");
-            balance = balance - amount; // add amount to the previous balance
-            print("You withdrew N$amount and your current balance is $balance");
-            print("Press 1 for further transaction or any key to exit");
+          if ((amount < balance) && (amount > 0)) {  /// IF INPUT IS A +VE NUMBER AND LESS THAN BALANCE
+            balance = balance - amount; // subtract amount from the previous balance
+            print("You withdrew N$amount and your current balance is $balance\n");
             break;
-          } else {  /// IF INPUT AMOUNT IS A -VE VALUE
-            if(amount > balance){
-              print("Your entry amount of N$amount is greater than your balance of N$balance");
+          } else {  /// IF AMOUNT GREATER THAN BALANCE or -VE VALUE
+            if(amount > balance) {
+              print("Your entry of N$amount is greater than your balance of N$balance\n"
+                  "Please enter an amount less than your balance");
               }
-            if(amount < 0){
-              print("Your entry amount of $amount Naira is negative");
-              print("Please enter a +ve number as amount");
+            if(amount < 0){ // if amount is less than zero
+              print("Your entry amount of $amount Naira is negative \n"
+              "Please enter a +ve number as amount");
             }
-            if (i == 1) {
+            if(amount == balance){ // if amount is equal to balance
+              print("Your entry of N$amount is same as your balance of N$balance");
+              print("Things hard, leave small change for us. Enter a lesser amount to withdraw");
+            }
+            if (i == 1) { //second iteration in a -ve input situauion
               print("One more entry-time left");
             }
-            if (i == 2) {
+            if (i == 2) { //third iteration in a -ve input situauion
               print("You exhausted your -ve input limit, bye");
               return;
             }
@@ -239,70 +249,62 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
         } catch (e) {  ///CATCH EXCEPTIONS FROM INPUT "AMOUNT" ABOVE
 
           if (i == 1) {
-            print("One Chance left..."); // for the last chance that remains in this -ve condition loop
+            print("One Chance left..."); //2nd iteration; one chance remains in this exception condition loop
           }
           print("Error!!! Non numbers not allowed");
           if (i == 2) {
-            print("You exhausted your input limit, Goodbye..."); // for the last chance that remains in this -ve condition loop
-            return;
+            print("You exhausted your input limit, Goodbye..."); // for the last chance that remains in the exception condition loop
+            return; // execution/ running ends
           }
         }
       }
-       return furtherTransaction();
+       return furtherTransaction(); // from the break loop above
     }
 
-    confirmBalance() { // code to check if balance == 0, -ve or other characters before any transaction
-      print('Wrong input. You have 3 attempts left (confirm balance)');
-        for (int i = 1; i <= 3; i++) {
-          //create class  for error messages
-          try {
-            amount = double.parse(stdin.readLineSync()!);
-            if (amount <= 0 || amount > balance) {
-              //try/catch here
-              print("You cannot input $amount as a withdrawal amount");
-              if(amount > balance) {
-                print("Input amount N$amount is greater than your balance of $balance");
-              }
-
-              //throw FormatException ('Negative values are not allowed');
-              if (i == 1) {
-                print("\nPlease input a valid amount");
-              }
-
-              if (i == 2) {
-                print('You have only a chance left!'
-                    '\nPlease input a correct amount');
-              }
-              if (i == 3) {
-                print("Sorry! You have exceeded your input limit"
-                    "\n");
-              }
-            } else {
-              break;
-              }
-           } catch (e) {
-            print ("Non number are not permitted here!");
-            //return;
-           }
-      }
-        //return amount;
-      select_Transaction();
-    }
 
     checkBalance() {
-      print("Welcome Customer, your balance is $balance");
-      print(quickTeller.balance2);
-
-      //furtherTransaction();
+      print("Your balance is $balance");
+      furtherTransaction();
     }
 
-    setPin() {
+    setPin() { // to set or change transaction PINs
+        for (int i = 0; i <= 2; i++) {
+          try {
+            print("Please enter your new 5-digit whole number as PIN");
+            pin = int.parse(stdin.readLineSync()!);
+            if((pin.toString().length == 5) && (pin > 0))  { //if PIN is 5 digits and PIN > 0
+              print("You have your new PIN set to $pin");
+              return furtherTransaction();
 
+            } else {
+              print ("Negative entry! ");
+              if (i == 1) {
+                print('One chance left!');
+              }
+              if (i == 2) {
+                print("You have exceeded your input limit. Goodbye!"
+                    "\n");
+                return;
+              }
+                //print("Negative numbers not permitted");
+            }
+          } catch (e) { // for non integer inputs
+            if (i == 1) {
+              print("One chance left!");
+            }
+            if (i == 2) {
+              print("You have exceeded your input limit. Goodbye!"
+                  "\n");
+              return;
+            }
+
+          }
+        }
+        //furtherTransaction();
     }
 
-    quickteller() {
-
-    }
+    // quickteller() { // check QuickTeller class
+    // }
 
     select_Transfer()  { // code to transfer money
       print('Press 1 for interbank transfer or 2 for intra-bank transfer '); //a message of direction

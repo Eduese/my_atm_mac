@@ -17,6 +17,48 @@ class QuickTeller {
   late double amount;
   double balance2 = 678; //customer.balance;
 
+  qServices(){ // SELECT QUICKTELLER SERVICES
+    for (int i = 0; i <= 0; i++) {
+      try {
+        option = (stdin.readLineSync()!);
+        switch (option) {
+          case 1:
+            print("Welcome to STARTIMES recharge interface");
+            print("Please input your Startimes decoder Code");
+            subscriptionType();
+
+          case 1:
+            print("Welcome to STARTIMES recharge interface");
+            print("Please input your Startimes decoder Code");
+            subscriptionType();
+
+          case 2:
+            print("Welcome to STARTIMES recharge interface");
+            print("Please input your Startimes decoder Code");
+            subscriptionType();
+
+          case 3:
+            print("Welcome to DSTV recharge interface");
+            print("Please input your IUC  Number");
+            subscriptionType();
+          case 3:
+            print("Welcome to GOTV recharge interface");
+            print("Please input your GOTV IUC Number");
+            subscriptionType();
+          case 4:
+            print("Welcome to WATER-BILL recharge interface");
+            print("Please input your WATER-BILL destination Code");
+            subscriptionType();
+          case 5:
+            print("Welcome tO ELECTRIC-BILL recharge interface");
+            print("Please input your ELECTRICITY account number");
+            subscriptionType();
+        }
+      } catch (e) {
+        print("Wrong entry");
+      }
+    }
+  }
 
   airtimeRecharge() {
     ///we can't verify phone numbers here until at real time...
@@ -129,40 +171,60 @@ class QuickTeller {
 
 
   subscriptionType() {
-    print("Please select your subscription type below:"
-        "Type A - N10,000; B - N7,000; C - N5,000; D - N3,000");
+
     for(int i = 0; i <= 2; i++) {
+      print("Please enter your subscription type below:"
+          "Type A - N10,000; B - N7,000; C - N5,000; D - N3,000");
       try {
-        plan = (stdin.readLineSync()!); // checkIfAlphabet()
-        if (plan.isLetter == true) {
+        plan = (stdin.readLineSync()!).toUpperCase(); // checkIfAlphabet()
+        if(plan is String ) {
           switch (plan) {
             case 'A':
               print("You selected option A recharge. It costs");
               balance = balance - 10000;
-              customer.checkBalance();
+              return customer.checkBalance();
             case 'B':
               print("You selected option B recharge");
               balance = balance - 7000;
-              customer.checkBalance();
+              return customer.checkBalance();
             case 'C':
               print("You selected option C recharge");
+              balance = balance - 5000;
+              return customer.checkBalance();
             case 'D':
               print("You selected option D recharge");
+              balance = balance - 3000;
+              return customer.checkBalance();
             default:
-              print("You selected to end all transactions");
-              return;
+              if (i == 0) {
+                print("Two wrong entries, you end all transactions");
+              }
+              if (i == 1) {
+                print("One more entry-time left");
+              }
+              if (i == 2) {
+                print("You  Thank you for banking with us. Have a nice day!");
+                return;
+              }
           }
-      //}
+      } else {
+          if (i == 1) {
+            print("Wrong entry! One more entry-time left");
+          }
+          if (i == 2) {
+            print("You  Thank you for banking with us. Have a nice day!");
+            return;
+          }
+          print("That entry ain't right");
+
+        }
     } catch (e) {
+
         print("You entered a wrong option. A to D are the options");
       }
   }
 }
 
-checkIfAlphabet() {
-  plan = (stdin.readLineSync()!);
-  if (plan.toUpperCase() == true);
-}
 
 
 
