@@ -13,37 +13,31 @@ import 'dart:io';
 import 'exception_errors.dart';
 import 'quick_teller.dart';
 
-exception_errors exceptionErrors = exception_errors();
-QuickTeller quickTeller = QuickTeller();
-double balance = 20000 ; //customer balance initialised to zero with an increment hope
+exception_errors exceptionErrors = exception_errors(); // object of class Exception_Errors
+QuickTeller quickTeller = QuickTeller(); // object of class Quickteller
+double balance = 20000 ; //customer balance initialised; it is UNIVERSAL - for other clasees usage
 
 void main(List<String> arguments) {
-  print('Welcome Customer. Please select the number based on the service you need'); // message to welcome customer
+  print("Welcome Customer"); // message to welcome customer // Please select the number based on the service you need');
   Customer().select_Transaction() ; //creating the Customer class object without first initialising it
 }
 
 class Customer { // creating a class with a typical SERVICES needed by a customer
-    //double balance = 0 ; //customer balance initialised to zero with an increment hope
+
     late int option; // options for the SERVICES to be offered by the bank
     late double amount; // being the deposit, withdraw, transfer, ...amount. The late keyword means it'll be used LATER
     late int accountNumber; // account number of the Customer
     late int phoneNumber; // phone number of the Customer
     int pin = 3456; // the default pin for this project
-    //late bool isString = true;
 
-  /* 1. SELECT TRANSACTION. 2. DEPOSIT; 3. WITHDRAW; 4. TRANSFER;
-  5. OPEN ACCOUNT, 6. CHECK BALANCE,
-  7. SET PIN.
-  4. QUICKTELLER SERVICES - TRANSFER, RECHARGE PHONE,  PAY BILLS (dstv, phedc,...),**/
 
     select_Transaction() {
       //function to select the TRANSACTION TYPE a customer wants to perform
       print("Welcome. Please type in one of the options below to select your transaction \n"
-          "1: DEPOSIT; 2: WITHDRAWAL; 3: BALANCE; 4: CHECK; TRANSFER; \n"
-          "5: QUICKTELLER - Recharge; txfer; ; DSTV; STARTIMES; GOTV; WATER BILL; POWER BILL\n"
-          "6: CHANGE PIN; 7:8:"
-          "0 to QUIT all transactions"
-          "Any other character will terminate the program instantly");
+          "1: DEPOSIT; 2: WITHDRAWAL; 3: BALANCE CHECK; 4: TRANSFER; \n"
+          "5: QUICKTELLER - (Recharge; Transfer; Startimes; DSTV; GoTV; Water Bill; Power Bill)\n"
+          "6: CHANGE PIN; "
+          "0: QUIT all transactions");
       for(int i = 0; i <= 2; i++) {
         try {
          option = int.parse(stdin.readLineSync()!);
@@ -51,29 +45,29 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
           if ((option is int) && (option.isNegative == false)) { // condition to accept only positive integers
             switch (option) {  // the SWITCH statement used to offer us options to choose
 
-              case 1: //
+              case 1: // DEPOSIT
                 print('You selected a DEPOSIT transaction service ');
                 return deposit(); //calling the deposit() function
 
-              case 2:
+              case 2: // WITHDRAWAL
                 print('You selected a WITHDRAWAL transaction service ');
                 return withdraw(); // return to the withdraw() function
 
-              case 3:
+              case 3: // BALANCE_CHECK
                 print('You selected an option to check your BALANCE ');
                 return checkBalance();
 
-              case 4:
+              case 4: // INTER or INTRA TRANSFERS
                 print('You selected a TRANSFER transaction service ');
                 print('Press 1 for Quickteller Transfer, Press 2 for Main transfer');
                 return select_Transfer(); // return to the selec_Transfer() function
 
-              case 5:
+              case 5: // QUICKTELLER SERVICES
                 print('You selected a QUICKTELLER transaction service ');
-                return quickTeller.airtimeRecharge() ;
+                return quickTeller ;
                 //return furtherTransaction();
 
-              case 6:
+              case 6: // CHANGE PIN
                 print('You selected a CHANGE-PIN transaction service ');
                   return quickTeller.subscriptionType();
 
@@ -81,7 +75,7 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
                 print('You are on CHECK-BALANCE transaction service ');
                   return checkBalance();
 
-              default:
+              case 0:
                 print('Thank you for banking with us');
                 return;
             }
@@ -97,17 +91,6 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
                    }
                 print("-Ve input not allowed. \n"
                     "\nPress any of the options 1 to 9 above to select your transaction ");
-
-                ///this code is for variety sake
-                ///we can do without the INPUT and the IF-ELSE statement
-                ///by making the user input OPTIONS 1 to 9 under SELECT TRANSACTION
-                ///as shown in the CATCH for loop that follows immediately after this IF-ELSE option
-                //option = int.parse(stdin.readLineSync()!);
-                // if(option > 0) {
-                //   select_Transaction();
-                // } else {
-                //   i++;
-                // }
                 }
           } catch (e) {
 
@@ -125,7 +108,7 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
 
 
     deposit() {
-      // for money deposit into one's account in one's bank
+      // for money deposit into one's bank account 
       print("You selected a DEPOSIT method. Please input the amount you want to deposit");
 
       for (int i = 0; i <= 2; i++) {
@@ -185,24 +168,41 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
       }
     }
 
+    end_transactions(){
+      try{
+      option = int.parse(stdin.readLineSync()!);
+        switch (option) {  // the SWITCH statement used to offer us options to choose
+
+          case 1: //
+            print('You selected a DEPOSIT transaction service ');
+            return deposit(); //calling the deposit() function
+
+          default: //
+            print('You selected to end all transactions ');
+            return withdraw(); // return to the withdraw() function
+
+          }
+        } catch(e) {
+      }
+    }
     
 
     furtherTransaction() {
       print("Press 1 for further transaction \nPress any key to exit all transactions");
-      //for (int v = 0; v <= 2; v++) {
+      for (int i = 0; i <= 2; i++) {
         try {
           option = int.parse(stdin.readLineSync()!);
           if (option == 1) {
-            select_Transaction();
+            return select_Transaction();
           } else {
-            print("Thank you for banking with us. Goodbye!");
-            //return;
+            print("Thank you for banking with us. Have a nice day!");
+            return;
           }
         } catch (e) {
           print("Thank you for banking with us. Have a nice day!");
-          //return;
+          return;
         }
-      ///} ///FOR TE FOR-LOOP
+      } ///FOR TE FOR-LOOP
     }
 
     withdraw() {
@@ -292,8 +292,7 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
     checkBalance() {
       print("Welcome Customer, your balance is $balance");
       print(quickTeller.balance2);
-
-      //furtherTransaction();
+      furtherTransaction();
     }
 
     setPin() {
