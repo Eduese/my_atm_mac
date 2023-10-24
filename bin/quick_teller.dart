@@ -111,6 +111,7 @@ class QuickTeller {
             subscriptionType();
           case 2:
             print("Welcome to DSTV recharge interface");
+            print("Welcome to DSTV recharge interface");
             print("Please input your IUC  Number");
             subscriptionType();
           case 3:

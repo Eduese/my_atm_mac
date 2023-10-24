@@ -28,6 +28,7 @@ class exception_errors implements Exception {
 //       break;
 //     }
 //   }
+//   }
 // }
 
 // confirmBalance() { // code to check if balance == 0, -ve or other characters before any transaction
