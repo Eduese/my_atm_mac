@@ -16,10 +16,11 @@ import 'quick_teller.dart';
 exception_errors exceptionErrors = exception_errors();
 QuickTeller quickTeller = QuickTeller();
 double balance = 20000 ; //customer balance initialised to zero with an increment hope
+//late int newPin;
 
 void main(List<String> arguments) {
   print('Welcome Customer. Please select the number based on the service you need'); // message to welcome customer
-  Customer().select_Transaction() ; //creating the Customer class object without first initialising it
+  Customer().inputPin() ; //creating the Customer class object without first initialising it
 }
 
 
@@ -36,6 +37,35 @@ class Customer { // creating a class with a typical SERVICES needed by a custome
   5. OPEN ACCOUNT, 6. CHECK BALANCE,
   7. SET PIN.
   4. QUICKTELLER SERVICES - TRANSFER, RECHARGE PHONE,  PAY BILLS (dstv, phedc,...),**/
+
+    inputPin() {
+      for(int i = 0; i <= 2; i++) {
+        try {
+          print("Please enter the correct PIN");
+          pin = int.parse(stdin.readLineSync()!);
+            if(pin == 3456) {
+                select_Transaction();
+            } else {
+              if(i == 1) {
+                print("One chance left. Are you sure this is your card? ");
+              }
+              if(i == 2) {
+                print("Your card is blocked. Visit your bank for rectification. Goodbye.");
+                return; // used to terminate the loop to avoid printing below message
+              }
+            }
+          
+        } catch (e) {
+              if(i == 1) {
+                print("Chai... I fear you.  ");
+              }
+              if(i == 2) {
+                print("Your card is blocked. Visit your bank for rectification. Goodbye.");
+                return; // used to terminate the loop to avoid printing below message
+              }
+            }
+      }
+    }
 
     select_Transaction() {
       //function to select the TRANSACTION TYPE a customer wants to perform

@@ -97,9 +97,6 @@ class QuickTeller {
     return customer.furtherTransaction();
   }
 
-
-
-
   bills() {
     print("Please enter the digit that corresponds to your bill payment"
         "1: STARTIMES; 2: DSTV; 3: GOTV; 4: WATER-BILL; 5: ELECTRICITY-BILL");
