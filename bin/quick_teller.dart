@@ -225,7 +225,9 @@ class QuickTeller {
   }
 }
 
+transfer() {
 
+}
 
 
 
