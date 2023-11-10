@@ -21,7 +21,8 @@ double balance = 20000 ; //customer balance initialised as a var with an increme
 
 void main(List<String> arguments) { // main function where all codes are executed
   print("Welcome Customer. Please enter your PIN to begin"); // message to welcome customer
-  return customer.inputPin() ; // creating the Customer class object without first initialising it
+  //return customer.inputPin() ; // creating the Customer class object without first initialising it
+  customer.select_Transaction();
 }
 
 class Customer { // creating a class for 'all' SERVICES needed by customer
@@ -253,7 +254,7 @@ class Customer { // creating a class for 'all' SERVICES needed by customer
     select_Transfer()  { // code to transfer money
       print('Press 1 for Quickteller (or InterBank) Transfer, Press 2 for Intra-bank transfer');  //a message of direction
       for (int i = 0; i <= 2; i++) {
-        print("Please enter a +ve number ");
+        print("Please press button 1 or 2 ");
         try { // Taking care of exceptions - non number inputs
           option = int.parse(stdin.readLineSync()!); // to get the amount to be deposited
 
@@ -267,8 +268,7 @@ class Customer { // creating a class for 'all' SERVICES needed by customer
                 return mainTransfer(); // return to the withdraw() function
 
               default:
-                print('You selected an option to check your BALANCE ');
-                return checkBalance();
+                if(i == 2){print('Wrong selection,. Goodbye.');}
               }
            } else {
             if (i == 1) {

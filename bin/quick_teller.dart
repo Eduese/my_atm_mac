@@ -13,9 +13,10 @@ class QuickTeller {
   ///
   ///QUICKTELLER - Recharge; txfer; ; DSTV; STARTIMES; GOTV; WATER-BILL; ELECTRIC-BILL"
 
-  late String option, accountCode, plan;
+  late String option, accountCode, plan, bankName;
   late double amount;
   double balance2 = 678; //customer.balance;
+  late int bank_option;
 
   qServices(){ // SELECT QUICKTELLER SERVICES
     for (int i = 0; i <= 0; i++) {
@@ -222,13 +223,100 @@ class QuickTeller {
 
         print("You entered a wrong option. A to D are the options");
       }
+    }
   }
-}
 
-transfer() {
+  transfer() {
+    print("Please select your bank");
+    selectBank();
+    print("Please select the recipient's bank \n");
+    selectBank();
+    print("Please input recipient's account number");
+    customer.accountNumber = int.parse(stdin.readLineSync()!);
+    return customer.mainTransfer();
+    }
 
-}
+  selectBank(){
+    print("1: ABBA BANK; 2: COCO BANK; 3: EVERLASTING BANK; 4: FLEXING BANK; \n"
+        "5: GOOD-BETTER BANK; 6: H - M; 7: N - T ; 8: U - Z  \n"
+        "Press 0 or any other character to QUIT all transactions");
 
+    for(int i = 0; i <= 2; i++) { // iterate three times in case of errors
+      try {
+        bank_option = int.parse(stdin.readLineSync()!);
 
+        // USE ARRAYS
+        if ((bank_option is int) && (!bank_option.isNegative )) { // condition to accept only positive integers
+          switch (bank_option) {  // the SWITCH statement used to offer us options to choose
+
+            case 1:
+              bankName = "ABBA Bank"; //Storing the bank name
+              //transfer();
+              break;
+
+            case 2:
+              bankName = "COCO Bank"; //Storing the bank name; // return to the withdraw() function
+              //return transfer();
+
+            case 3:
+              bankName = "EVER BANK"; //Storing the bank name;
+              //return transfer();
+
+            case 4:
+              bankName = "FLEXING BANK";
+              //return transfer();
+
+            case 5:
+              bankName = "GOOD BETTER BANK";
+              //return transfer();
+
+            case 6:
+              bankName = "NAIJA BANK"; //Storing the bank name
+              return transfer();
+
+            case 7:
+              print("For future use");
+              return customer.furtherTransaction();
+
+            case 8:
+              print("For future use");
+              return customer.furtherTransaction();
+
+            // case 9:
+            //   return banks_H_M(); //Storing the bank name
+
+            default:
+              print('Thank you for choosing to bank with us');
+              return;
+          }
+
+        } else {
+
+          if(i == 1) {
+            print("Only one last chance left for (-ve input) ");
+          }
+          if(i == 2) {
+            print("You exhausted your -ve entry limit. Goodbye.");
+            return; // used to terminate the loop to avoid printing below message
+          }
+          print("\n-Negative inputs not allowed. \n"
+              "\nPress any of the options 1 to 9 above to select your transaction ");
+
+        }
+      } catch (e) {
+
+        if(i == 1) {
+          print("You have only one chance for non-number entries");
+        }
+        if(i == 2) {
+          print("You exhausted your 'xter' entry limit. Goodbye.");
+          return; // used to terminate the loop to avoid printing below message
+        }
+        print("Please enter only INTEGERS 1 to 9 that corresponds to your transactionzz");
+        }
+        //break;
+      }
+    //return transfer();
+    }
 
 }
