@@ -14,6 +14,20 @@ class ExceptionErrors implements Exception {
 
 }
 
+// transfer() {
+//   print("Please select your bank");
+//   return selectBank();
+//
+// }
+//
+// transfer2() {
+//   print("Please select the recipient's bank \n");
+//   selectBank();
+//   // print("Please input recipient's account number");
+//   // customer.accountNumber = int.parse(stdin.readLineSync()!);
+//   //return customer.mainTransfer();
+// }
+
 // checkPositiveIntegerInputs(){
 //   for(int k = 0; k <= 2; k++) {
 //     print("Please input the correct code");

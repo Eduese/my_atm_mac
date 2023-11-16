@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:test/expect.dart';
+//import 'package:test/expect.dart';
 
 import 'my_atm_mac.dart';
 
@@ -16,44 +16,36 @@ class QuickTeller {
   late String option, accountCode, plan, bankName;
   late double amount;
   double balance2 = 678; //customer.balance;
-  late int bank_option;
+  late int bankOption;
 
   qServices(){ // SELECT QUICKTELLER SERVICES
+    print("Welcome to QuickTeller services. "
+        "Please type in one of the options below to select your transaction \n"
+        "1: AIRTIME; 2: UTILITY BILLS; 3: MONEY TRANSFER; 4: REMITTA PAYMENTS; \n"
+        "5: RECEIVE MONEY \n"
+        "0 or any other character to QUIT all transactions");
     for (int i = 0; i <= 0; i++) {
       try {
         option = (stdin.readLineSync()!);
         switch (option) {
-          case 1:
-            print("Welcome to STARTIMES recharge interface");
-            print("Please input your Startimes decoder Code");
-            subscriptionType();
 
-          case 1:
-            print("Welcome to STARTIMES recharge interface");
-            print("Please input your Startimes decoder Code");
-            subscriptionType();
-
-          case 2:
-            print("Welcome to STARTIMES recharge interface");
-            print("Please input your Startimes decoder Code");
-            subscriptionType();
-
-          case 3:
-            print("Welcome to DSTV recharge interface");
-            print("Please input your IUC  Number");
-            subscriptionType();
-          case 3:
-            print("Welcome to GOTV recharge interface");
-            print("Please input your GOTV IUC Number");
-            subscriptionType();
-          case 4:
-            print("Welcome to WATER-BILL recharge interface");
-            print("Please input your WATER-BILL destination Code");
-            subscriptionType();
-          case 5:
-            print("Welcome tO ELECTRIC-BILL recharge interface");
-            print("Please input your ELECTRICITY account number");
-            subscriptionType();
+          case "1":
+            print("Welcome to AIRTIME recharge interface");
+            return airtimeRecharge();
+          case "2":
+            print("Welcome to  UTILITY BILLS recharge interface");
+            return bills();
+          case "3":
+            print("Welcome to MONEY TRANSFER interface");
+            return transfer();
+          case "4":
+            print("Welcome to REMITTA interface");
+            print("Not yet developed");
+            customer.furtherTransaction();
+          case "5":
+            print("Welcome to RECEIVE MONEY interface");
+            print("Not yet developed");
+            customer.furtherTransaction();
         }
       } catch (e) {
         print("Wrong entry");
@@ -105,24 +97,23 @@ class QuickTeller {
       try {
         option = (stdin.readLineSync()!);
         switch (option) {
-          case 1:
+          case "1":
             print("Welcome to STARTIMES recharge interface");
             print("Please input your Startimes decoder Code");
             subscriptionType();
-          case 2:
-            print("Welcome to DSTV recharge interface");
+          case "2":
             print("Welcome to DSTV recharge interface");
             print("Please input your IUC  Number");
             subscriptionType();
-          case 3:
+          case "3":
             print("Welcome to GOTV recharge interface");
             print("Please input your GOTV IUC Number");
             subscriptionType();
-          case 4:
+          case "4":
             print("Welcome to WATER-BILL recharge interface");
             print("Please input your WATER-BILL destination Code");
             subscriptionType();
-          case 5:
+          case "5":
             print("Welcome tO ELECTRIC-BILL recharge interface");
             print("Please input your ELECTRICITY account number");
             subscriptionType();
@@ -141,7 +132,7 @@ class QuickTeller {
       print("Please enter the amount corresponding to your plan");
       try {
         amount = double.parse(stdin.readLineSync()!);
-        if (amount > 0) {
+        if ((amount > 0) && (amount < balance)) {
           balance = balance - amount;
           print("You're dong well");
           print("You have N$balance as your balance.");
@@ -178,7 +169,7 @@ class QuickTeller {
           "Type A - N10,000; B - N7,000; C - N5,000; D - N3,000");
       try {
         plan = (stdin.readLineSync()!).toUpperCase(); // checkIfAlphabet()
-        if(plan is String ) {
+        if(plan is String) {
           switch (plan) {
             case 'A':
               print("You selected option A recharge. It costs");
@@ -217,24 +208,18 @@ class QuickTeller {
             return;
           }
           print("That entry ain't right");
-
         }
     } catch (e) {
-
         print("You entered a wrong option. A to D are the options");
       }
     }
   }
 
+
   transfer() {
-    print("Please select your bank");
-    selectBank();
     print("Please select the recipient's bank \n");
-    selectBank();
-    print("Please input recipient's account number");
-    customer.accountNumber = int.parse(stdin.readLineSync()!);
-    return customer.mainTransfer();
-    }
+    return selectBank();
+  }
 
   selectBank(){
     print("1: ABBA BANK; 2: COCO BANK; 3: EVERLASTING BANK; 4: FLEXING BANK; \n"
@@ -243,32 +228,32 @@ class QuickTeller {
 
     for(int i = 0; i <= 2; i++) { // iterate three times in case of errors
       try {
-        bank_option = int.parse(stdin.readLineSync()!);
+        bankOption = int.parse(stdin.readLineSync()!);
 
         // USE ARRAYS
-        if ((bank_option is int) && (!bank_option.isNegative )) { // condition to accept only positive integers
-          switch (bank_option) {  // the SWITCH statement used to offer us options to choose
+        if ((bankOption is int) && (!bankOption.isNegative)) { // condition to accept only positive integers
+          switch (bankOption) {  // the SWITCH statement used to offer us options to choose
 
             case 1:
               bankName = "ABBA Bank"; //Storing the bank name
-              //transfer();
+              return customer.mainTransfer();
               break;
 
             case 2:
               bankName = "COCO Bank"; //Storing the bank name; // return to the withdraw() function
-              //return transfer();
+              return transfer();
 
             case 3:
               bankName = "EVER BANK"; //Storing the bank name;
-              //return transfer();
+              return transfer();
 
             case 4:
               bankName = "FLEXING BANK";
-              //return transfer();
+              return transfer();
 
             case 5:
               bankName = "GOOD BETTER BANK";
-              //return transfer();
+              return transfer();
 
             case 6:
               bankName = "NAIJA BANK"; //Storing the bank name
@@ -288,8 +273,10 @@ class QuickTeller {
             default:
               print('Thank you for choosing to bank with us');
               return;
-          }
-
+              }
+          // print("Please select ")
+          // bank_option = int.parse(stdin.readLineSync()!);
+          break;
         } else {
 
           if(i == 1) {
@@ -301,8 +288,8 @@ class QuickTeller {
           }
           print("\n-Negative inputs not allowed. \n"
               "\nPress any of the options 1 to 9 above to select your transaction ");
-
         }
+
       } catch (e) {
 
         if(i == 1) {
@@ -314,9 +301,15 @@ class QuickTeller {
         }
         print("Please enter only INTEGERS 1 to 9 that corresponds to your transactionzz");
         }
+        //return;
         //break;
       }
-    //return transfer();
+    return; // transfer();
     }
+
+
+
+
+
 
 }

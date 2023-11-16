@@ -22,7 +22,7 @@ double balance = 20000 ; //customer balance initialised as a var with an increme
 void main(List<String> arguments) { // main function where all codes are executed
   print("Welcome Customer. Please enter your PIN to begin"); // message to welcome customer
   //return customer.inputPin() ; // creating the Customer class object without first initialising it
-  customer.select_Transaction();
+  return customer.select_Transaction();
 }
 
 class Customer { // creating a class for 'all' SERVICES needed by customer
@@ -88,11 +88,11 @@ class Customer { // creating a class for 'all' SERVICES needed by customer
 
               case 4:
                 print('You selected a TRANSFER transaction service ');
-                return select_Transfer(); // return to the selec_Transfer() function
+                return select_Transfer(); // return to the select_Transfer() function
 
               case 5:
                 print('You selected a QUICKTELLER transaction service ');
-                return quickTeller.airtimeRecharge() ;
+                return quickTeller.qServices() ;
 
               case 6:
                 print('You selected a CHANGE-PIN transaction service ');
