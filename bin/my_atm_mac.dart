@@ -208,7 +208,7 @@ class Customer { // creating a class for 'all' SERVICES needed by customer
             balance = balance - amount;                 // add amount to the previous balance
             print("You withdrew N$amount and your current balance is $balance\n");
             break;
-          } else {                                  /// IF INPUT AMOUNT IS A -VE VALUE
+          } else {                                   /// IF INPUT AMOUNT IS A -VE VALUE
             if(amount > balance){
               print("Your entry amount of N$amount is greater than your balance of N$balance");
               }

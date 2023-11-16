@@ -13,10 +13,11 @@ class QuickTeller {
   ///
   ///QUICKTELLER - Recharge; txfer; ; DSTV; STARTIMES; GOTV; WATER-BILL; ELECTRIC-BILL"
 
-  late String option, accountCode, plan, bankName;
+  late String option, plan, bankName;
   late double amount;
   double balance2 = 678; //customer.balance;
   late int bankOption;
+  late var accountCode;
 
   qServices(){ // SELECT QUICKTELLER SERVICES
     print("Welcome to QuickTeller services. "
@@ -91,7 +92,7 @@ class QuickTeller {
   }
 
   bills() {
-    print("Please enter the digit that corresponds to your bill payment"
+    print("Please enter the digit that corresponds to your bill payment \n"
         "1: STARTIMES; 2: DSTV; 3: GOTV; 4: WATER-BILL; 5: ELECTRICITY-BILL");
     for (int i = 0; i <= 0; i++) {
       try {
@@ -100,65 +101,33 @@ class QuickTeller {
           case "1":
             print("Welcome to STARTIMES recharge interface");
             print("Please input your Startimes decoder Code");
-            subscriptionType();
+            accountCode = (stdin.readLineSync()!); // checkIfAlphabet()
+            return subscriptionType();
           case "2":
             print("Welcome to DSTV recharge interface");
-            print("Please input your IUC  Number");
-            subscriptionType();
+            print("Please input your DSTV decoder IUC Number");
+            accountCode = (stdin.readLineSync()!); // checkIfAlphabet()
+            return subscriptionType();
           case "3":
             print("Welcome to GOTV recharge interface");
-            print("Please input your GOTV IUC Number");
-            subscriptionType();
+            print("Please input your GOTV decoder IUC Number");
+            accountCode = (stdin.readLineSync()!); // checkIfAlphabet()
+            return subscriptionType();
           case "4":
             print("Welcome to WATER-BILL recharge interface");
             print("Please input your WATER-BILL destination Code");
-            subscriptionType();
+            accountCode = (stdin.readLineSync()!); // checkIfAlphabet()
+            return subscriptionType();
           case "5":
             print("Welcome tO ELECTRIC-BILL recharge interface");
             print("Please input your ELECTRICITY account number");
-            subscriptionType();
+            accountCode = (stdin.readLineSync()!); // checkIfAlphabet()
+            return subscriptionType();
         }
       } catch (e) {
         print("Wrong entry");
       }
     }
-  }
-
-
-  billsPayment() {
-    print("Please input your  Number/ Code");
-    accountCode = (stdin.readLineSync()!);
-    for (int i = 0; i <= 2; i++) {
-      print("Please enter the amount corresponding to your plan");
-      try {
-        amount = double.parse(stdin.readLineSync()!);
-        if ((amount > 0) && (amount < balance)) {
-          balance = balance - amount;
-          print("You're dong well");
-          print("You have N$balance as your balance.");
-          break;
-        } else {
-          if (i == 1) {
-            print("You have one more chance left");
-          }
-          if (i == 2) {
-            print("You exhausted your -ve entry grace limit, bye");
-            return;
-          }
-          print("Negative money is not permitted here");
-        }
-      } catch (e) {
-        if (i == 1) {
-          print("You have one more chance left");
-        }
-        if (i == 2) {
-          print("You exhausted your xter entry grace limit, bye");
-          return;
-        }
-        print("Baddeer input");
-      }
-    }
-    customer.furtherTransaction();
   }
 
 
@@ -172,24 +141,41 @@ class QuickTeller {
         if(plan is String) {
           switch (plan) {
             case 'A':
-              print("You selected option A recharge. It costs");
-              balance = balance - 10000;
-              return customer.checkBalance();
+              print("You selected option A recharge. It costs N10,000");
+              if (balance >= 10000 ) {
+                balance = balance - 10000;
+                print("You successfully recharged your account with account code $accountCode and Type A Service. Enjoy");
+              } else {
+                print("Your balance of N$balance is less than subscription amount of N10,000");
+              }
             case 'B':
-              print("You selected option B recharge");
-              balance = balance - 7000;
-              return customer.checkBalance();
+              print("You selected option B recharge with N7,000 cost");
+              if (balance > 7000 ) {
+                balance = balance - 7000;
+                print("You successfully recharged your account with Type B Service. Enjoy");
+
+              } else {
+                print("Your balance of N$balance is less than subscription amount of N7,000");
+              }
             case 'C':
-              print("You selected option C recharge");
-              balance = balance - 5000;
-              return customer.checkBalance();
+              print("You selected option C recharge with N5,000 cost");
+              if (balance > 5000 ) {
+                balance = balance - 5000;
+                print("You successfully recharged your account with Type C Service. Enjoy");
+              } else {
+                print("Your balance of N$balance is less than subscription amount of N5,000");
+              }
             case 'D':
-              print("You selected option D recharge");
-              balance = balance - 3000;
-              return customer.checkBalance();
+              print("You selected option C recharge with N3,000 cost");
+              if (balance > 3000 ) {
+                balance = balance - 3000;
+                print("You successfully recharged your account with Type D Service. Enjoy");
+              } else {
+                print("Your balance of N$balance is less than subscription amount of N3,000");
+              }
             default:
               if (i == 0) {
-                print("Two wrong entries, you end all transactions");
+                print("Two more wrong entries, you end all transactions");
               }
               if (i == 1) {
                 print("One more entry-time left");
@@ -199,6 +185,7 @@ class QuickTeller {
                 return;
               }
           }
+          return customer.furtherTransaction();
       } else {
           if (i == 1) {
             print("Wrong entry! One more entry-time left");
@@ -306,6 +293,44 @@ class QuickTeller {
       }
     return; // transfer();
     }
+
+
+  // billsPayment() { // for further use
+  //   print("Please input your  Number/ Code");
+  //   accountCode = (stdin.readLineSync()!);
+  //   for (int i = 0; i <= 2; i++) {
+  //     print("Please enter the amount corresponding to your plan");
+  //     try {
+  //       amount = double.parse(stdin.readLineSync()!);
+  //       if ((amount > 0) && (amount < balance)) {
+  //         balance = balance - amount;
+  //         print("You're dong well");
+  //         print("You have N$balance as your balance.");
+  //         break;
+  //       } else {
+  //         if (i == 1) {
+  //           print("You have one more chance left");
+  //         }
+  //         if (i == 2) {
+  //           print("You exhausted your -ve entry grace limit, bye");
+  //           return;
+  //         }
+  //         print("Negative money is not permitted here");
+  //       }
+  //     } catch (e) {
+  //       if (i == 1) {
+  //         print("You have one more chance left");
+  //       }
+  //       if (i == 2) {
+  //         print("You exhausted your xter entry grace limit, bye");
+  //         return;
+  //       }
+  //       print("Baddeer input");
+  //     }
+  //   }
+  //   customer.furtherTransaction();
+  // }
+
 
 
 
