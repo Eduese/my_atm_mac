@@ -1,4 +1,5 @@
 import 'dart:io';
+//import 'dart:svg';
 //import 'package:test/expect.dart';
 
 import 'my_atm_mac.dart';
@@ -24,7 +25,7 @@ class QuickTeller {
         "Please type in one of the options below to select your transaction \n"
         "1: AIRTIME; 2: UTILITY BILLS; 3: MONEY TRANSFER; 4: REMITTA PAYMENTS; \n"
         "5: RECEIVE MONEY \n"
-        "0 or any other character to QUIT all transactions");
+        "Press 0 or any other character to QUIT all transactions");
     for (int i = 0; i <= 0; i++) {
       try {
         option = (stdin.readLineSync()!);
@@ -47,6 +48,10 @@ class QuickTeller {
             print("Welcome to RECEIVE MONEY interface");
             print("Not yet developed");
             customer.furtherTransaction();
+
+          default:
+            print("This is over. Goodbye");
+            return;
         }
       } catch (e) {
         print("Wrong entry");
@@ -62,14 +67,12 @@ class QuickTeller {
         //for (int i = 0; i <= 2; i++) {
         print("Please input the CORRECT phone number to recharge");
         String phoneNumber = (stdin.readLineSync()!);
-        if ((phoneNumber.length == 11) && (phoneNumber.startsWith(
-            '0'))) { // to check length and start of the number
+        if ((phoneNumber.length == 11)  && (phoneNumber.startsWith('0') == true)) { // to check length and start of the number
           print("Please input the amount to recharge");
           double amount = double.parse(stdin.readLineSync()!);
           print("You have recharged $phoneNumber with N$amount\n");
-          print(phoneNumber.length);
           print('');
-          break;
+          return customer.furtherTransaction();
         } else {
           if (i == 1) {
             print("You have only 1 entry-times remaining");
@@ -78,7 +81,7 @@ class QuickTeller {
             print("Phone number must start with 0 (zero)");
           }
           if (phoneNumber.length != 11) {
-            print("11 digits make up a Nigerian mobile phone number\n");
+            print("11 digitzz make up a Nigerian mobile phone number\n");
           }
           if (i == 2) {
             print("You have exhausted your input limit, Odahbor");
@@ -86,12 +89,15 @@ class QuickTeller {
         }
       } catch (e) {
         print("You have entered a non number");
+        if (i == 2) {
+          print("You have exhausted non-number input limits, Odahbor");
+        }
       }
     }
-    return customer.furtherTransaction();
+    return;
   }
 
-  bills() {
+  bills() { // for UTILITY BILLS
     print("Please enter the digit that corresponds to your bill payment \n"
         "1: STARTIMES; 2: DSTV; 3: GOTV; 4: WATER-BILL; 5: ELECTRICITY-BILL");
     for (int i = 0; i <= 0; i++) {
@@ -100,32 +106,48 @@ class QuickTeller {
         switch (option) {
           case "1":
             print("Welcome to STARTIMES recharge interface");
-            print("Please input your Startimes decoder Code");
-            accountCode = (stdin.readLineSync()!); // checkIfAlphabet()
-            return subscriptionType();
+            print("Please input your Startimes decoder Code-Number");
+            return accountCodeEntry();
+
           case "2":
             print("Welcome to DSTV recharge interface");
             print("Please input your DSTV decoder IUC Number");
-            accountCode = (stdin.readLineSync()!); // checkIfAlphabet()
-            return subscriptionType();
+            return accountCodeEntry();
           case "3":
             print("Welcome to GOTV recharge interface");
             print("Please input your GOTV decoder IUC Number");
-            accountCode = (stdin.readLineSync()!); // checkIfAlphabet()
-            return subscriptionType();
+            return accountCodeEntry();
           case "4":
             print("Welcome to WATER-BILL recharge interface");
             print("Please input your WATER-BILL destination Code");
-            accountCode = (stdin.readLineSync()!); // checkIfAlphabet()
-            return subscriptionType();
+            return accountCodeEntry();
           case "5":
             print("Welcome tO ELECTRIC-BILL recharge interface");
             print("Please input your ELECTRICITY account number");
-            accountCode = (stdin.readLineSync()!); // checkIfAlphabet()
-            return subscriptionType();
+            return accountCodeEntry();
+
+          default:
+            print("Game over meh...n. Goodbye");
+            return;
         }
       } catch (e) {
         print("Wrong entry");
+      }
+    }
+  }
+
+  accountCodeEntry() {
+    for(int i = 0; i <= 2; i++) {
+      accountCode = (stdin.readLineSync()!); // checkIfAlphabet()
+      if (accountCode.length >= 4) {
+        return subscriptionType();
+      } else {
+        print("Wrong entry Brethren!");
+        if (i == 2) {
+          print("You exhausted your input limits ");
+          return;
+        }
+        print("Please enter the right code");
       }
     }
   }
@@ -145,6 +167,7 @@ class QuickTeller {
               if (balance >= 10000 ) {
                 balance = balance - 10000;
                 print("You successfully recharged your account with account code $accountCode and Type A Service. Enjoy");
+                //return customer.furtherTransaction();
               } else {
                 print("Your balance of N$balance is less than subscription amount of N10,000");
               }
@@ -166,7 +189,7 @@ class QuickTeller {
                 print("Your balance of N$balance is less than subscription amount of N5,000");
               }
             case 'D':
-              print("You selected option C recharge with N3,000 cost");
+              print("You selected option D recharge with N3,000 cost");
               if (balance > 3000 ) {
                 balance = balance - 3000;
                 print("You successfully recharged your account with Type D Service. Enjoy");
@@ -185,7 +208,7 @@ class QuickTeller {
                 return;
               }
           }
-          return customer.furtherTransaction();
+          break;
       } else {
           if (i == 1) {
             print("Wrong entry! One more entry-time left");
@@ -199,7 +222,9 @@ class QuickTeller {
     } catch (e) {
         print("You entered a wrong option. A to D are the options");
       }
+
     }
+    return customer.furtherTransaction();
   }
 
 
@@ -217,7 +242,7 @@ class QuickTeller {
       try {
         bankOption = int.parse(stdin.readLineSync()!);
 
-        // USE ARRAYS
+        //
         if ((bankOption is int) && (!bankOption.isNegative)) { // condition to accept only positive integers
           switch (bankOption) {  // the SWITCH statement used to offer us options to choose
 
@@ -247,13 +272,12 @@ class QuickTeller {
               return transfer();
 
             case 7:
-              print("For future use");
+              print("Bank O - R For future use");
               return customer.furtherTransaction();
 
             case 8:
-              print("For future use");
+              print("Bank S - Z For future use");
               return customer.furtherTransaction();
-
             // case 9:
             //   return banks_H_M(); //Storing the bank name
 
@@ -261,9 +285,7 @@ class QuickTeller {
               print('Thank you for choosing to bank with us');
               return;
               }
-          // print("Please select ")
-          // bank_option = int.parse(stdin.readLineSync()!);
-          break;
+
         } else {
 
           if(i == 1) {
@@ -288,10 +310,9 @@ class QuickTeller {
         }
         print("Please enter only INTEGERS 1 to 9 that corresponds to your transactionzz");
         }
-        //return;
-        //break;
+
       }
-    return; // transfer();
+    return; //
     }
 
 

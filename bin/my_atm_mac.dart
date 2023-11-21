@@ -139,7 +139,7 @@ class Customer { // creating a class for 'all' SERVICES needed by customer
       // for money deposit into one's account in one's bank
       print("Input the amount you want to deposit");
 
-      for (int i = 0; i <= 2; i++) {
+      for (int i = 0; i <= 2; i++) { //
         print("Please enter a +ve number as amount");
         try { // Taking care of exceptions - non number inputs
                 amount = double.parse(stdin.readLineSync()!); // to get the amount to be deposited
@@ -149,7 +149,6 @@ class Customer { // creating a class for 'all' SERVICES needed by customer
                   print("\nPlease wait while we compare the cash with your input");
                   balance = amount + balance; // add amount to the previous balance
                   print("You deposited N$amount and your current balance is $balance");
-                  print("Press 1 for further transaction or any key to exit");
                   break;
                 } else {  /// IF INPUT AMOUNT IS A -VE VALUE
 
