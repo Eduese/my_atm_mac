@@ -17,6 +17,7 @@ import 'quick_teller.dart'; //importing class QuickTeller thru its file_name
 ExceptionErrors exceptionErrors = ExceptionErrors(); // the ExceptionError class object
 QuickTeller quickTeller = QuickTeller(); // the QuickTeller class object
 double balance = 20000 ; //customer balance initialised as a var with an increment hope
+late double amount; //
 
 
 void main(List<String> arguments) { // main function where all codes are executed
@@ -28,10 +29,10 @@ void main(List<String> arguments) { // main function where all codes are execute
 class Customer { // creating a class for 'all' SERVICES needed by customer
     late int option; // options help customer to select the SERVICES needed
     late double amount; // being the deposit, withdraw, transfer, ...amount. The late keyword means it'll be used LATER
-    late int accountNumber; // account number of the Customer
-    late int phoneNumber; // phone number of the Customer
+    late String accountNumber; // account number of the Customer
     int pin = 3456; // the default pin for this project
     late String recipient;
+    //late int phoneNumber; // phone number of the Customer
 
 
     inputPin() { // code to enter PIN to gain access to all services
@@ -83,7 +84,7 @@ class Customer { // creating a class for 'all' SERVICES needed by customer
                 return withdraw(); // return to the withdraw() function
 
               case 3:
-                print('You selected an option to check your BALANCE ');
+                print('Wait while we check your BALANCE ');
                 return checkBalance();
 
               case 4:
@@ -102,8 +103,8 @@ class Customer { // creating a class for 'all' SERVICES needed by customer
                 print('You are on CHECK-BALANCE transaction service ');
                   return checkBalance();
 
-              default:
-                print('Thank you for choosing to bank with us');
+              default: // without default
+                print('Wrong option selected. Goodbye.');
                 return;
             }
 
@@ -140,7 +141,7 @@ class Customer { // creating a class for 'all' SERVICES needed by customer
       print("Input the amount you want to deposit");
 
       for (int i = 0; i <= 2; i++) { //
-        print("Please enter a +ve number as amount");
+        print("Please enter a +ve number as DEPOSIT amount");
         try { // Taking care of exceptions - non number inputs
                 amount = double.parse(stdin.readLineSync()!); // to get the amount to be deposited
 
@@ -167,7 +168,7 @@ class Customer { // creating a class for 'all' SERVICES needed by customer
                     print(
                         "One Chance left..."); // for the last chance that remains in this -ve condition loop
                   }
-                  print("Error!!! Non numbers not allowed");
+                  print("Error!!! such entry is not allowed");
                   if (i == 2) {
                     print(
                         "You exhausted your char input limit, Goodbye..."); // for the last chance that remains in this -ve condition loop
@@ -199,7 +200,7 @@ class Customer { // creating a class for 'all' SERVICES needed by customer
       // function to help in withdrawing
       print("Please enter the amount to withdraw");
       for (int i = 0; i <= 2; i++) {
-        print("Please enter a +ve number as amount");
+        print("Please enter a +ve number as a WITHDRAWAL amount");
         try {                                             // Taking care of exceptions - non number inputs
           amount = double.parse(stdin.readLineSync()!); // to get the amount to be deposited
 
@@ -210,10 +211,11 @@ class Customer { // creating a class for 'all' SERVICES needed by customer
           } else {                                   /// IF INPUT AMOUNT IS A -VE VALUE
             if(amount > balance){
               print("Your entry amount of N$amount is greater than your balance of N$balance");
+              return withdraw();
               }
 
             if(amount <= 0){
-              print("You cannot withdraw a zero or -ve $amount Naira");
+              print("You cannot withdraw a zero or -ve $amount Naira ");
             }
             if (i == 1) {
               print("You have one entry-time left");
@@ -226,9 +228,9 @@ class Customer { // creating a class for 'all' SERVICES needed by customer
         } catch (e) {  ///CATCH EXCEPTIONS FROM INPUT "AMOUNT" ABOVE
 
           if (i == 1) {
-            print("One Chance left..."); // for the last chance that remains in this -ve condition loop
-          }
-          print("Error!!! Non numbers not allowed");
+            print("One Chance left..."); } // for the last chance that remains in this -ve condition loop
+
+            print("Error!!! Non numbers not allowed");
           if (i == 2) {
             print("You exhausted your input limit, Goodbye..."); // for the last chance that remains in this -ve condition loop
             return;
@@ -241,7 +243,7 @@ class Customer { // creating a class for 'all' SERVICES needed by customer
 
 
     checkBalance() {
-      print("Welcome Customer, your balance is $balance");
+      print("Your balance is $balance");
       furtherTransaction();
     }
 
@@ -295,20 +297,25 @@ class Customer { // creating a class for 'all' SERVICES needed by customer
     }
 
     mainTransfer() {
-      for(int i = 1; i <= 2; i++) {
+
+      for(int i = 0; i <= 2; i++) {
         print("Please enter the recipient's correct account number");
         try {
-            accountNumber = int.parse(stdin.readLineSync()!); // to get the recipient account number
-            if (accountNumber > 0) {
+            accountNumber = (stdin.readLineSync()!); // to get the recipient account number
+            int digitAccountNumber = int.parse(accountNumber); // convert account number from String to Integer
+            if ((accountNumber.length == 10) && (digitAccountNumber > 0)) {
               break;
             } else {
-            print("Account number shouldn't be negative");
+            print("Account number should be a positive ten digits numer");
             if(i == 2){
               print("You exhausted your input limit. Odahbor");
               return;
-            }
+            } //
           }
         } catch (e) {
+          if (i == 1) {
+            print("Wrong entry. One entry Chance left..."); // for the last chance that remains in this -ve condition loop
+          }
           print("Bad boy. You wan hack!!!");
           //furtherTransaction();
         }
@@ -333,6 +340,8 @@ class Customer { // creating a class for 'all' SERVICES needed by customer
             if(amount <= 0){
               print("You cannot transfer a zero or -ve $amount Naira");
             }
+            if((accountNumber.length < 10)||(accountNumber.length > 10)){
+              print("Account Numeber should have ten digits");}
             if (i == 1) {
               print("You have one entry-time left");
             }
@@ -360,8 +369,8 @@ class Customer { // creating a class for 'all' SERVICES needed by customer
       for(int i = 1; i <= 2; i++) {
         print("Please enter the recipient's correct account number");
         try {
-          accountNumber = int.parse(stdin.readLineSync()!); // to get the recipient account number
-          if (accountNumber > 0) {
+          accountNumber = (stdin.readLineSync()!); // to get the recipient account number
+          if (accountNumber.length == 10) {
             break;
           } else {
             print("Account number shouldn't be negative");

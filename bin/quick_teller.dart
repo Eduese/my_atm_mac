@@ -15,8 +15,7 @@ class QuickTeller {
   ///QUICKTELLER - Recharge; txfer; ; DSTV; STARTIMES; GOTV; WATER-BILL; ELECTRIC-BILL"
 
   late String option, plan, bankName;
-  late double amount;
-  double balance2 = 678; //customer.balance;
+  //late double amount;
   late int bankOption;
   late var accountCode;
 
@@ -38,7 +37,7 @@ class QuickTeller {
             print("Welcome to  UTILITY BILLS recharge interface");
             return bills();
           case "3":
-            print("Welcome to MONEY TRANSFER interface");
+            print("Welcome to MONEY TRANSFER interface \n");
             return transfer();
           case "4":
             print("Welcome to REMITTA interface");
@@ -64,11 +63,11 @@ class QuickTeller {
     //print("Please input the CORRECT phone number");
     for (int i = 0; i <= 2; i++) {
       try {
-        //for (int i = 0; i <= 2; i++) {
-        print("Please input the CORRECT phone number to recharge");
+        print("Please input the CORRECT phone number to recharge ");
         String phoneNumber = (stdin.readLineSync()!);
-        if ((phoneNumber.length == 11)  && (phoneNumber.startsWith('0') == true)) { // to check length and start of the number
-          print("Please input the amount to recharge");
+        int digitPhoneNumber = int.parse(phoneNumber); //replace all white-spaces with no spaces
+        if ((phoneNumber.length >= 9) && (digitPhoneNumber > 0) && (phoneNumber.startsWith("0") == true)) { // to check length and start of the number
+          print("Please input the amount to recharge ");
           double amount = double.parse(stdin.readLineSync()!);
           print("You have recharged $phoneNumber with N$amount\n");
           print('');
@@ -77,10 +76,10 @@ class QuickTeller {
           if (i == 1) {
             print("You have only 1 entry-times remaining");
           }
-          if (phoneNumber.startsWith('0') == false) {
+          if (phoneNumber.toString().startsWith('0') == false) {
             print("Phone number must start with 0 (zero)");
           }
-          if (phoneNumber.length != 11) {
+          if (phoneNumber.toString().length > 11) {
             print("11 digitzz make up a Nigerian mobile phone number\n");
           }
           if (i == 2) {
@@ -88,7 +87,7 @@ class QuickTeller {
           }
         }
       } catch (e) {
-        print("You have entered a non number");
+        print("You have entered a wrong combination");
         if (i == 2) {
           print("You have exhausted non-number input limits, Odahbor");
         }
@@ -108,7 +107,6 @@ class QuickTeller {
             print("Welcome to STARTIMES recharge interface");
             print("Please input your Startimes decoder Code-Number");
             return accountCodeEntry();
-
           case "2":
             print("Welcome to DSTV recharge interface");
             print("Please input your DSTV decoder IUC Number");
@@ -136,7 +134,7 @@ class QuickTeller {
     }
   }
 
-  accountCodeEntry() {
+  accountCodeEntry() { // destination(IUC, NEPA-ACCT, STARTIMES...) code for all bills
     for(int i = 0; i <= 2; i++) {
       accountCode = (stdin.readLineSync()!); // checkIfAlphabet()
       if (accountCode.length >= 4) {
@@ -167,7 +165,6 @@ class QuickTeller {
               if (balance >= 10000 ) {
                 balance = balance - 10000;
                 print("You successfully recharged your account with account code $accountCode and Type A Service. Enjoy");
-                //return customer.furtherTransaction();
               } else {
                 print("Your balance of N$balance is less than subscription amount of N10,000");
               }
@@ -229,47 +226,46 @@ class QuickTeller {
 
 
   transfer() {
-    print("Please select the recipient's bank \n");
+    print("Please select the recipient's bank ");
     return selectBank();
   }
 
   selectBank(){
-    print("1: ABBA BANK; 2: COCO BANK; 3: EVERLASTING BANK; 4: FLEXING BANK; \n"
+    print("1: ABBA BANK; 2: COCO BANK; 3: EVER BANK; 4: FLEXING BANK; \n"
         "5: GOOD-BETTER BANK; 6: H - M; 7: N - T ; 8: U - Z  \n"
         "Press 0 or any other character to QUIT all transactions");
 
     for(int i = 0; i <= 2; i++) { // iterate three times in case of errors
       try {
+        print("Please select the bank");
         bankOption = int.parse(stdin.readLineSync()!);
 
-        //
         if ((bankOption is int) && (!bankOption.isNegative)) { // condition to accept only positive integers
           switch (bankOption) {  // the SWITCH statement used to offer us options to choose
 
             case 1:
               bankName = "ABBA Bank"; //Storing the bank name
               return customer.mainTransfer();
-              break;
 
             case 2:
               bankName = "COCO Bank"; //Storing the bank name; // return to the withdraw() function
-              return transfer();
+              return customer.mainTransfer();
 
             case 3:
               bankName = "EVER BANK"; //Storing the bank name;
-              return transfer();
+              return customer.mainTransfer();
 
             case 4:
               bankName = "FLEXING BANK";
-              return transfer();
+              return customer.mainTransfer();
 
             case 5:
               bankName = "GOOD BETTER BANK";
-              return transfer();
+              return customer.mainTransfer();
 
             case 6:
               bankName = "NAIJA BANK"; //Storing the bank name
-              return transfer();
+              return customer.mainTransfer();
 
             case 7:
               print("Bank O - R For future use");
@@ -278,8 +274,6 @@ class QuickTeller {
             case 8:
               print("Bank S - Z For future use");
               return customer.furtherTransaction();
-            // case 9:
-            //   return banks_H_M(); //Storing the bank name
 
             default:
               print('Thank you for choosing to bank with us');
@@ -292,7 +286,7 @@ class QuickTeller {
             print("Only one last chance left for (-ve input) ");
           }
           if(i == 2) {
-            print("You exhausted your -ve entry limit. Goodbye.");
+            print("You exhausted all -ve entry limit. Goodbye.");
             return; // used to terminate the loop to avoid printing below message
           }
           print("\n-Negative inputs not allowed. \n"
